@@ -4,3 +4,9 @@ export interface User {
     userId: string,
     role: string
 };
+
+export interface formUserData {
+    email: string,
+    username: string,
+    password: string
+}
