@@ -3,6 +3,7 @@
 import {ref, onMounted, type Ref} from 'vue'
 import { getLast2 } from '@/services/paintingsService.js';
 import type {painting} from '../types/painting'
+import router from '@/router/index.js';
 
 const paintings: Ref<painting[]> = ref([])
 
@@ -14,6 +15,10 @@ onMounted(async () => {
     }
 })
 
+function goToGallery() {
+    router.push('/gallery')
+}
+
 </script>
 
 <template>
@@ -22,7 +27,7 @@ onMounted(async () => {
             <div class="col">
                 <h1>Gallery</h1>
                 <p>Expedita fuga vitae nisi, aperiam ipsam repellendus assumenda molestiae quos, soluta perferendis cum delectus qui, ab officia consequatur tempora. Debitis, sed vel.</p>
-                <button type="button">Explore</button>
+                <button type="button" @click="goToGallery">Explore</button>
             </div>
             <div class="col">
                 <div class="card" v-for="painting in paintings" :key="painting._id" :style="{backgroundImage: `url(${painting.imageUrl})`}">
