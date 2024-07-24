@@ -14,6 +14,7 @@ export default function internalFetch(method, url, data) {
         "Content-type": "application/json"
     }
     settings.body = JSON.stringify(data)
+    settings.credentials = 'include'
 
     return fetch(`${baseUrl}/${url}`, settings)
 }
