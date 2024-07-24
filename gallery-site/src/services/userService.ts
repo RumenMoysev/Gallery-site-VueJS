@@ -1,5 +1,5 @@
 import internalFetch from "@/lib/internalFetch"
-import type { errObject } from "@/types/errors"
+import type { userErrObject } from "@/types/errors"
 import type { formUserData } from "@/types/user"
 import { ref, type Ref } from "vue"
 
@@ -62,13 +62,13 @@ export function logoutUser() {
     return internalFetch('POST', 'users/logout', undefined)
 }
 
-export function validateData({ email, username, password }: formUserData, repeatPassword?: string): errObject {
+export function validateData({ email, username, password }: formUserData, repeatPassword?: string): userErrObject {
     const regex: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const emailLength: number = 5
     const usernameLength: number = 4
     const passwordLength: number = 4
 
-    const errObj: errObject = {}
+    const errObj: userErrObject = {}
 
     if (!email) {
         errObj.email = 'Email is required!'

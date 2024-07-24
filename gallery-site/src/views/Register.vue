@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { errObject } from '@/types/errors.js';
+import type { userErrObject } from '@/types/errors.js';
 import type { formUserData } from '@/types/user.js';
 import { ref, type Ref } from 'vue';
 import * as userSevice from '@/services/userService.js'
@@ -9,7 +9,7 @@ const email: Ref<string> = ref('')
 const username: Ref<string> = ref('')
 const password: Ref<string> = ref('')
 const repeatPassword: Ref<string> = ref('')
-const errors = ref<errObject>({})
+const errors = ref<userErrObject>({})
 
 async function register() {
     const userData: formUserData = {
