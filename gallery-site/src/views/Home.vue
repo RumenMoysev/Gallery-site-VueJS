@@ -19,6 +19,10 @@ function goToGallery() {
     router.push('/gallery')
 }
 
+function goToPainting(paintingId: string) {
+    router.push(`gallery/${paintingId}`)
+}
+
 </script>
 
 <template>
@@ -30,7 +34,7 @@ function goToGallery() {
                 <button type="button" @click="goToGallery">Explore</button>
             </div>
             <div class="col">
-                <div class="card" v-for="painting in paintings" :key="painting._id" :style="{backgroundImage: `url(${painting.imageUrl})`}">
+                <div class="card" v-for="painting in paintings" :key="painting._id" :style="{backgroundImage: `url(${painting.imageUrl})`}" @click="goToPainting(painting._id)">
                     <h4>{{painting.title}}</h4>
                     <p>{{painting.summary}}</p>
                 </div>
