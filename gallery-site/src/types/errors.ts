@@ -5,3 +5,12 @@ export interface errObject {
     repeatPassword?: string,
     generalError?: string
 }
+
+export interface paintingErrObject {
+    title?: string,
+    summary?: string,
+    description?: string,
+    imageUrl?: string,
+    price?: string,
+    generalError?: string
+}
