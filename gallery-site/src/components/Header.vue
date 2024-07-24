@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { role, isLoggedIn } from '@/services/userService.js';
+import * as userService from '@/services/userService.js';
+
+if(document.cookie.includes('userId=')) {
+    console.log('true')
+    userService.getUser()
+}
 </script>
 
 <template>
@@ -18,15 +23,15 @@ import { role, isLoggedIn } from '@/services/userService.js';
         <nav class="navbar">
             <router-link to="/" style="--i:1;">Home</router-link>
             <router-link to="/gallery" style="--i:2;" >Gallery</router-link>
-            <template v-if="isLoggedIn">
+            <template v-if="userService.isLoggedIn.value">
                 <router-link to="/register" style="--i:3;">Logout</router-link>
                 <router-link to="/my-profile" style="--i:4;">Profile</router-link>
             </template>
-            <template v-if="!isLoggedIn">
+            <template v-if="!userService.isLoggedIn.value">
                 <router-link to="/login" style="--i:3;">Login</router-link>
                 <router-link to="/register" style="--i:4;">Register</router-link>
             </template>
-            <router-link v-if="role === 'admin'" to="/add-painting" style="--i:5;">Add Painting</router-link>
+            <router-link v-if="userService.role.value === 'admin'" to="/add-painting" style="--i:5;">Add Painting</router-link>
         </nav>
     </header>
 </template>
