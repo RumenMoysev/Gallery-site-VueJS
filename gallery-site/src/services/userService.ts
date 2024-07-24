@@ -24,7 +24,7 @@ export async function login(userData: formUserData) {
 
 export async function register(userData: formUserData, repeatPassword: string) {
     try {
-        const response: Response = await internalFetch('POST', 'users/register', userData)
+        const response: Response = await internalFetch('POST', 'users/register', {...userData, repeatPassword})
         const data = await response.json()
 
         if (response.status === 400) {
@@ -34,6 +34,18 @@ export async function register(userData: formUserData, repeatPassword: string) {
         isLoggedIn.value = true
     } catch (error) {
         throw error;
+    }
+}
+
+export async function getUser() {
+    try {
+        const response: Response = await internalFetch('GET', 'users/getUser')
+        const body = await response.json()
+
+        isLoggedIn.value = true
+        role.value = body.role
+    } catch (error) {
+        console.log(error)
     }
 }
 
