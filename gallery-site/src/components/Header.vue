@@ -1,14 +1,30 @@
 <script setup lang="ts">
+import router from '@/router/index.js';
 import * as userService from '@/services/userService.js';
+import { onMounted } from 'vue';
 
-if(document.cookie.includes('userId=')) {
+onMounted(() => {
+    if(document.cookie.includes('userId=')) {
     userService.getUser()
+}
+})
+
+function logout(e: Event) {
+    e.preventDefault()
+
+    userService.logoutUser()
+}
+
+function goToHome(e: Event) {
+    e.preventDefault()
+
+    router.push('/')
 }
 </script>
 
 <template>
     <header class="header">
-        <a href="/"><img class="headerLogo" src="@/assets/images/art-logo.png"/></a>
+        <a href="/"><img class="headerLogo" src="@/assets/images/art-logo.png" @click="goToHome"/></a>
 
         <!-- <input type="checkbox" id="check" [checked]="checked" (click)="check()">
         <label for="check" class="icons">
@@ -23,7 +39,7 @@ if(document.cookie.includes('userId=')) {
             <router-link to="/" style="--i:1;">Home</router-link>
             <router-link to="/gallery" style="--i:2;" >Gallery</router-link>
             <template v-if="userService.isLoggedIn.value">
-                <router-link to="/register" style="--i:3;">Logout</router-link>
+                <router-link to="" style="--i:3;" @click="logout">Logout</router-link>
                 <router-link to="/my-profile" style="--i:4;">Profile</router-link>
             </template>
             <template v-if="!userService.isLoggedIn.value">
