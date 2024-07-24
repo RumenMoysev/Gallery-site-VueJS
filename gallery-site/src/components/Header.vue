@@ -2,7 +2,6 @@
 import * as userService from '@/services/userService.js';
 
 if(document.cookie.includes('userId=')) {
-    console.log('true')
     userService.getUser()
 }
 </script>
