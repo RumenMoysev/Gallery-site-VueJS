@@ -5,6 +5,7 @@ import { ref, type Ref } from "vue"
 
 export const isLoggedIn: Ref<boolean> = ref(false)
 export const role: Ref<string> = ref('guest')
+export const userId: Ref<string> = ref('')
 
 export async function login(userData: formUserData) {
     try {
@@ -17,6 +18,7 @@ export async function login(userData: formUserData) {
 
         isLoggedIn.value = true
         role.value = data.role
+        userId.value = data.userId
     } catch (error) {
         throw error;
     }
@@ -32,6 +34,8 @@ export async function register(userData: formUserData, repeatPassword: string) {
         }
 
         isLoggedIn.value = true
+        role.value = data.role
+        userId.value = data.userId
     } catch (error) {
         throw error;
     }
@@ -40,13 +44,22 @@ export async function register(userData: formUserData, repeatPassword: string) {
 export async function getUser() {
     try {
         const response: Response = await internalFetch('GET', 'users/getUser')
-        const body = await response.json()
+        const data = await response.json()
 
         isLoggedIn.value = true
-        role.value = body.role
+        role.value = data.role
+        userId.value = data.userId
     } catch (error) {
         console.log(error)
     }
+}
+
+export function logoutUser() {
+    isLoggedIn.value = false
+    role.value = 'guest'
+    userId.value = ''
+
+    return internalFetch('POST', 'users/logout', undefined)
 }
 
 export function validateData({ email, username, password }: formUserData, repeatPassword?: string): errObject {
