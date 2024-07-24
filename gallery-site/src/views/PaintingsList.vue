@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import type { painting } from '@/types/painting.js';
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import * as paintingsService from '@/services/paintingsService.js'
 
 const paintings: Ref<painting[] | undefined> = ref()
 const isLoading: Ref<boolean> = ref(true)
 
-getPaintings()
-
-async function getPaintings() {
+onMounted(async () => {
     paintings.value = await paintingsService.getPaintings()
     isLoading.value = false
-}
+})
 
 </script>
 
