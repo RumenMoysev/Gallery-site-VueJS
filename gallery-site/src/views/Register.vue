@@ -3,14 +3,15 @@ import type { errObject } from '@/types/errors.js';
 import type { formUserData } from '@/types/user.js';
 import { ref, type Ref } from 'vue';
 import * as userSevice from '@/services/userService.js'
+import router from '@/router/index.js';
 
 const email: Ref<string> = ref('')
 const username: Ref<string> = ref('')
 const password: Ref<string> = ref('')
 const repeatPassword: Ref<string> = ref('')
-let errors = ref<errObject>({})
+const errors = ref<errObject>({})
 
-function register() {
+async function register() {
     const userData: formUserData = {
         email: email.value,
         username: username.value,
@@ -20,9 +21,12 @@ function register() {
     errors.value = userSevice.validateData(userData, repeatPassword.value)
 
     if(!errors.value.email && !errors.value.username && !errors.value.password) {
-        console.log('no errs')
-    } else {
-        console.log('errs')
+        try {
+            await userSevice.register(userData, repeatPassword.value)
+            router.push('/')
+        } catch (error) {
+            errors.value.generalError = String(error)
+        }
     }
 }
 
@@ -79,9 +83,9 @@ function register() {
                 <p>{{ errors.repeatPassword }}</p>
             </div>
 
-            <!-- <div class="error" *ngIf="errorMsg">
-                <p>{{errorMsg}}</p>
-            </div> -->
+            <div class="error" v-if="errors.generalError">
+                <p>{{errors.generalError}}</p>
+            </div>
         </div>
 
     </section>

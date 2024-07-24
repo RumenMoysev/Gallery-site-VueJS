@@ -1,26 +1,34 @@
+<script setup lang="ts">
+import { role, isLoggedIn } from '@/services/userService.js';
+</script>
+
 <template>
     <header class="header">
-    <a href="/"><img class="headerLogo" src="@/assets/images/art-logo.png"/></a>
+        <a href="/"><img class="headerLogo" src="@/assets/images/art-logo.png"/></a>
 
-    <!-- <input type="checkbox" id="check" [checked]="checked" (click)="check()">
-    <label for="check" class="icons">
-        <i class='bx bx-menu' id="menu-icon"></i>
-        <i class='bx bx-x' id="close-icon"></i>
-    </label> -->
-<!-- 
-    <div *ngIf="isLoggedIn" style="--nav-bar-size: 16rem"></div>
-    <div *ngIf="!isLoggedIn" style="--nav-bar-size: 13.5rem"></div> -->
+        <!-- <input type="checkbox" id="check" [checked]="checked" (click)="check()">
+        <label for="check" class="icons">
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <i class='bx bx-x' id="close-icon"></i>
+        </label> -->
+        <!--     
+        <div *ngIf="isLoggedIn" style="--nav-bar-size: 16rem"></div>
+        <div *ngIf="!isLoggedIn" style="--nav-bar-size: 13.5rem"></div> -->
 
-    <nav class="navbar">
-        <router-link to="/" style="--i:1;">Home</router-link>
-        <router-link to="/gallery" style="--i:2;" >Gallery</router-link>
-        <router-link to="/login" style="--i:3;">Login</router-link>
-        <router-link to="/register" style="--i:4;">Register</router-link>
-        <router-link to="/register" style="--i:3;">Logout</router-link>
-        <router-link to="/my-profile" style="--i:4;">Profile</router-link>
-        <router-link to="/add-painting" style="--i:5;">Add Painting</router-link>
-    </nav>
-</header>
+        <nav class="navbar">
+            <router-link to="/" style="--i:1;">Home</router-link>
+            <router-link to="/gallery" style="--i:2;" >Gallery</router-link>
+            <template v-if="isLoggedIn">
+                <router-link to="/register" style="--i:3;">Logout</router-link>
+                <router-link to="/my-profile" style="--i:4;">Profile</router-link>
+            </template>
+            <template v-if="!isLoggedIn">
+                <router-link to="/login" style="--i:3;">Login</router-link>
+                <router-link to="/register" style="--i:4;">Register</router-link>
+            </template>
+            <router-link v-if="role === 'admin'" to="/add-painting" style="--i:5;">Add Painting</router-link>
+        </nav>
+    </header>
 </template>
 
 <style scoped>

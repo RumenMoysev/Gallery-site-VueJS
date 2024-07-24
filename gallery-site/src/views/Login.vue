@@ -3,13 +3,14 @@ import type { errObject } from '@/types/errors.js';
 import type { formUserData } from '@/types/user.js';
 import { ref, type Ref } from 'vue';
 import * as userSevice from '@/services/userService.js'
+import router from '@/router/index.js';
 
 const email: Ref<string> = ref('')
 const username: Ref<string> = ref('')
 const password: Ref<string> = ref('')
-let errors = ref<errObject>({})
+const errors = ref<errObject>({})
 
-function login() {
+async function login() {
     const userData: formUserData = {
         email: email.value,
         username: username.value,
@@ -19,9 +20,12 @@ function login() {
     errors.value = userSevice.validateData(userData)
 
     if(!errors.value.email && !errors.value.username && !errors.value.password) {
-        console.log('no errs')
-    } else {
-        console.log('errs')
+        try {
+            await userSevice.login(userData)
+            router.push('/')
+        } catch (error) {
+            errors.value.generalError = String(error)
+        }
     }
 }
 
@@ -67,9 +71,9 @@ function login() {
                 <p>{{ errors.password }}</p>
             </div>
 
-            <!-- <div class="error" *ngIf="errorMsg">
-                <p>{{errorMsg}}</p>
-            </div> -->
+            <div class="error" v-if="errors.generalError">
+                <p>{{errors.generalError}}</p>
+            </div>
         </div>
     </section>
 </template>

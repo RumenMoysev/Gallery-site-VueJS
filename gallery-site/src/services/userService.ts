@@ -1,5 +1,41 @@
+import internalFetch from "@/lib/internalFetch"
 import type { errObject } from "@/types/errors"
 import type { formUserData } from "@/types/user"
+import { ref, type Ref } from "vue"
+
+export const isLoggedIn: Ref<boolean> = ref(false)
+export const role: Ref<string> = ref('guest')
+
+export async function login(userData: formUserData) {
+    try {
+        const response: Response = await internalFetch('POST', 'users/login', userData)
+        const data = await response.json()
+
+        if(response.status === 400) {
+            throw data.message
+        }
+
+        isLoggedIn.value = true
+        role.value = data.role
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function register(userData: formUserData, repeatPassword: string) {
+    try {
+        const response: Response = await internalFetch('POST', 'users/register', userData)
+        const data = await response.json()
+
+        if (response.status === 400) {
+            throw data.message
+        }
+
+        isLoggedIn.value = true
+    } catch (error) {
+        throw error;
+    }
+}
 
 export function validateData({ email, username, password }: formUserData, repeatPassword?: string): errObject {
     const regex: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -27,7 +63,9 @@ export function validateData({ email, username, password }: formUserData, repeat
         errObj.password = 'Password is required!'
     } else if (password.length < passwordLength) {
         errObj.password = `Password should be at least ${passwordLength} characters long!`
-    } else if (repeatPassword !== password) {
+    }
+    
+    if (repeatPassword && repeatPassword !== password) {
         errObj.password = 'Passwords do not match!'
     }
 
