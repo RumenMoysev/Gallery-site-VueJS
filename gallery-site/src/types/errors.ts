@@ -1,4 +1,4 @@
-export interface errObject {
+export interface userErrObject {
     email?: string,
     username?: string,
     password?: string,
