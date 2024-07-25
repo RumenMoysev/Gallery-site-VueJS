@@ -62,7 +62,7 @@ async function register() {
             <button class="formBtn">Register</button>
 
             <div class="register-link">
-                <p>Already have an account? <a href="/login">Login</a></p>
+                <p>Already have an account? <router-link to="/login">Login</router-link></p>
             </div>
         </form>
 
