@@ -13,7 +13,13 @@ const isLoading: Ref<boolean> = ref(true)
 
 onMounted(async () => {
     userData.value = await userService.getUser() as User
-    getLikedPaintings()
+    if(userData.value.role == 'admin') {
+        ownedSelected.value = true
+        likedSelected.value = false
+        getOwnedPaintings()
+    } else {
+        getLikedPaintings()
+    }
 })
 
 async function getOwnedPaintings() {
@@ -46,7 +52,7 @@ async function getLikedPaintings() {
             <section class="profile">
                 <div class='profileButtons'>
                     <button v-if="userData.role === 'admin'" :class="{selected: ownedSelected}" @click="getOwnedPaintings">Posted</button>
-                    <button :class="{selected: likedSelected}" @click="getLikedPaintings">Liked</button>
+                    <button v-if="userData.role !== 'admin'" :class="{selected: likedSelected}" @click="getLikedPaintings">Liked</button>
                 </div>
                 <div class="paintingsPage1">
                 <template v-if="paintings">
