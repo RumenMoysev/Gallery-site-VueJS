@@ -4,6 +4,7 @@ import EditPainting from '@/views/EditPainting.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import MyProfile from '@/views/MyProfile.vue'
+import NotFound from '@/views/NotFound.vue'
 import PaintingDetails from '@/views/PaintingDetails.vue'
 import PaintingsList from '@/views/PaintingsList.vue'
 import Register from '@/views/Register.vue'
@@ -61,6 +62,11 @@ const router = createRouter({
       name: 'MyProfile',
       component: MyProfile,
       beforeEnter: authGuard
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
     }
   ]
 })
