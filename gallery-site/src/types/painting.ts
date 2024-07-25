@@ -18,3 +18,11 @@ export interface paintingDetails {
     owner: string | boolean,
     _id: string
 }
+
+export interface paintingFormData {
+    title: string,
+    imageUrl: string,
+    summary: string,
+    description: string,
+    price: number
+}
