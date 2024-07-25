@@ -2,6 +2,7 @@ import AddPainting from '@/views/AddPainting.vue'
 import EditPainting from '@/views/EditPainting.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
+import MyProfile from '@/views/MyProfile.vue'
 import PaintingDetails from '@/views/PaintingDetails.vue'
 import PaintingsList from '@/views/PaintingsList.vue'
 import Register from '@/views/Register.vue'
@@ -49,6 +50,11 @@ const router = createRouter({
           component: EditPainting
         }
       ]
+    },
+    {
+      path: '/my-profile',
+      name: 'MyProfile',
+      component: MyProfile
     }
   ]
 })
