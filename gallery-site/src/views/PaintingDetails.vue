@@ -40,7 +40,8 @@ function likePainting(e: Event) {
 async function deletePainting(e: Event) {
     e.preventDefault()
 
-    if(userService.isLoggedIn && paintingDetails.value?.owner) {
+    const confirm = window.confirm('Are you sure you want to delete this painting?')
+    if(userService.isLoggedIn && paintingDetails.value?.owner && confirm) {
         await paintingsService.deletePainting(paintingId)
 
         router.push('/gallery')
@@ -66,7 +67,7 @@ async function deletePainting(e: Event) {
                         <a v-if="!paintingDetails?.owner && userService.isLoggedIn.value && !hasLiked" class="detailsBtn" href="" @click="likePainting">Like</a>
                         <p v-if="hasLiked">Thanks for liking!</p>
                         <template v-if="paintingDetails?.owner">
-                            <a class="detailsBtn" routerLink='edit'>Edit</a>
+                            <router-link :to="{name: 'EditPainting', params: {id: `${paintingDetails._id}`}}" class="detailsBtn">Edit</router-link>
                             <a class="detailsBtn" href='' @click="deletePainting">Delete</a>
                         </template>
                     </div>
