@@ -54,7 +54,7 @@ async function login() {
             <button class="formBtn">Login</button>
 
             <div class="register-link">
-                <p>Don't have an account? <a router-link="/register">Register</a></p>
+                <p>Don't have an account? <router-link to="/register">Register</router-link></p>
             </div>
         </form>
 
