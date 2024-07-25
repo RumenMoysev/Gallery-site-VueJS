@@ -1,6 +1,6 @@
 import internalFetch from "@/lib/internalFetch"
 import type { userErrObject } from "@/types/errors"
-import type { formUserData } from "@/types/user"
+import type { formUserData, User } from "@/types/user"
 import { ref, type Ref } from "vue"
 
 export const isLoggedIn: Ref<boolean> = ref(false)
@@ -44,11 +44,13 @@ export async function register(userData: formUserData, repeatPassword: string) {
 export async function getUser() {
     try {
         const response: Response = await internalFetch('GET', 'users/getUser')
-        const data = await response.json()
+        const data: User = await response.json()
 
         isLoggedIn.value = true
         role.value = data.role
         userId.value = data.userId
+
+        return data
     } catch (error) {
         console.log(error)
     }
