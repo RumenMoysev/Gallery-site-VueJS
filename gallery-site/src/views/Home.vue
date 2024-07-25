@@ -6,10 +6,12 @@ import type {painting} from '../types/painting'
 import router from '@/router/index.js';
 
 const paintings: Ref<painting[]> = ref([])
-
+const isLoading: Ref<boolean> = ref(true)
+ 
 onMounted(async () => {
     try {
         paintings.value = await getLast2()
+        isLoading.value = false
     } catch (error) {
         console.log(error)
     }
@@ -35,12 +37,16 @@ function goToPainting(paintingId: string) {
                     <button type="button" @click="goToGallery">Explore</button>
                 </div>
             </div>
-            <div class="col">
+            <div v-if="!isLoading" class="col">
                 <div class="card" v-for="painting in paintings" :key="painting._id" :style="{backgroundImage: `url(${painting.imageUrl})`}" @click="goToPainting(painting._id)">
                     <h4>{{painting.title}}</h4>
                     <p>{{painting.summary}}</p>
                 </div>
                 <p v-if="!paintings || paintings.length === 0" :class="'noPaintings'" style="font-size: 40px;">No paintings yet!</p>
+            </div>
+            <div class="spinner col" v-if="isLoading">
+                <div class="ring"></div>
+                <span>loading...</span>
             </div>
         </div>
     </main>
