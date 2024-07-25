@@ -9,6 +9,7 @@ const userData = ref<User>({} as User)
 const paintings: Ref<painting[]> = ref([])
 const ownedSelected: Ref<boolean> = ref(false)
 const likedSelected: Ref<boolean> = ref(true)
+const isLoading: Ref<boolean> = ref(true)
 
 onMounted(async () => {
     userData.value = await userService.getUser() as User
@@ -19,6 +20,7 @@ async function getOwnedPaintings() {
     ownedSelected.value = true
     likedSelected.value = false
     paintings.value = await paintingsService.getOwned()
+    isLoading.value = false
 }
 
 async function getLikedPaintings() {
@@ -26,13 +28,14 @@ async function getLikedPaintings() {
     likedSelected.value = true
     console.log(await paintingsService.getLiked())
     paintings.value = await paintingsService.getLiked()
+    isLoading.value = false
 }
 
 </script>
 
 <template>
     <section class="profilePage center">
-        <section class="profileContainer">
+        <section v-if="!isLoading" class="profileContainer">
             <div class='userData'>
                 <h2>Profile: {{userData?.username}}</h2>
                 <h2></h2>
@@ -64,6 +67,11 @@ async function getLikedPaintings() {
                 </div>
             </section>
         </section>
+
+        <div class="spinner" v-if="isLoading">
+        <div class="ring"></div>
+        <span>loading...</span>
+    </div>
     </section>
 </template>
 
