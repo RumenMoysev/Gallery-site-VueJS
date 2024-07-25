@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import router from '@/router/index.js';
 import * as userService from '@/services/userService.js';
-import { onMounted } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
+
+const checked: Ref<boolean> = ref(false)
 
 onMounted(() => {
     if(document.cookie.includes('userId=')) {
@@ -20,33 +22,37 @@ function goToHome(e: Event) {
 
     router.push('/')
 }
+
+function check() {
+    checked.value = !checked.value
+}
 </script>
 
 <template>
     <header class="header">
         <a href="/"><img class="headerLogo" src="@/assets/images/art-logo.png" @click="goToHome"/></a>
 
-        <!-- <input type="checkbox" id="check" [checked]="checked" (click)="check()">
+        <input type="checkbox" id="check" :checked="checked" @click="check">
         <label for="check" class="icons">
             <i class='bx bx-menu' id="menu-icon"></i>
             <i class='bx bx-x' id="close-icon"></i>
-        </label> -->
-        <!--     
-        <div *ngIf="isLoggedIn" style="--nav-bar-size: 16rem"></div>
-        <div *ngIf="!isLoggedIn" style="--nav-bar-size: 13.5rem"></div> -->
+        </label>
+            
+        <div v-if="userService.isLoggedIn" style="--nav-bar-size: 16rem"></div>
+        <div v-if="!userService.isLoggedIn" style="--nav-bar-size: 13.5rem"></div>
 
         <nav class="navbar">
-            <router-link to="/" style="--i:1;">Home</router-link>
-            <router-link to="/gallery" style="--i:2;" >Gallery</router-link>
+            <router-link to="/" style="--i:1;" @click="check">Home</router-link>
+            <router-link to="/gallery" style="--i:2;" @click="check">Gallery</router-link>
             <template v-if="userService.isLoggedIn.value">
-                <router-link to="" style="--i:3;" @click="logout">Logout</router-link>
-                <router-link to="/my-profile" style="--i:4;">Profile</router-link>
+                <router-link to="" style="--i:3;" @click="logout($event); check()" >Logout</router-link>
+                <router-link to="/my-profile" style="--i:4;" @click="check">Profile</router-link>
             </template>
             <template v-if="!userService.isLoggedIn.value">
-                <router-link to="/login" style="--i:3;">Login</router-link>
-                <router-link to="/register" style="--i:4;">Register</router-link>
+                <router-link to="/login" style="--i:3;" @click="check">Login</router-link>
+                <router-link to="/register" style="--i:4;" @click="check">Register</router-link>
             </template>
-            <router-link v-if="userService.role.value === 'admin'" to="/add-painting" style="--i:5;">Add Painting</router-link>
+            <router-link v-if="userService.role.value === 'admin'" to="/add-painting" style="--i:5;" @click="check">Add Painting</router-link>
         </nav>
     </header>
 </template>
