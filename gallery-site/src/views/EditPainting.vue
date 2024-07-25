@@ -11,18 +11,21 @@ const summary: Ref<string> = ref('')
 const description: Ref<string> = ref('')
 const imageUrl: Ref<string> = ref('')
 const price: Ref<number | undefined> = ref()
+const isLoading: Ref<boolean> = ref(true)
 
 const route = useRoute()
 const paintingId: string = String(route.params.id)
 
 onMounted(async () => {
     const data: paintingDetails = await paintingsService.getPaintingDetails(paintingId)
-
+    
     title.value = data.title
     summary.value = data.summary
     description.value = data.description
     imageUrl.value = data.imageUrl
     price.value = data.price
+    
+    isLoading.value = false
 })
 
 const errors = ref<paintingErrObject>({})
@@ -59,7 +62,7 @@ async function editPainting() {
 
 <template>
     <section class="editPaintingPage center">
-        <form class="form" @submit.prevent="editPainting">
+        <form v-if="!isLoading" class="form" @submit.prevent="editPainting">
             <h2>Edit painting</h2>
             <div class="input-box">
                 <input type="text" placeholder="" name="paintingTitle" id="" v-model="title">
@@ -114,6 +117,11 @@ async function editPainting() {
                 <p>{{ errors.generalError }}</p>
             </div>
         </div>
+
+        <div class="spinner" v-if="isLoading">
+        <div class="ring"></div>
+        <span>loading...</span>
+    </div>
     </section>
 </template>
 
