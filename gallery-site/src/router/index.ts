@@ -1,3 +1,5 @@
+import AddPainting from '@/views/AddPainting.vue'
+import EditPainting from '@/views/EditPainting.vue'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import PaintingDetails from '@/views/PaintingDetails.vue'
@@ -35,6 +37,16 @@ const router = createRouter({
           path: ':id',
           name: 'PaintingDetails',
           component: PaintingDetails
+        },
+        {
+          path: '/add-painting',
+          name: 'AddPainting',
+          component: AddPainting
+        },
+        {
+          path: ':id/edit-painting',
+          name: 'EditPainting',
+          component: EditPainting
         }
       ]
     }
