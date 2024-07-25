@@ -20,6 +20,18 @@ export async function getPaintingDetails(paintingId:string): Promise<paintingDet
     return response.json()
 }
 
+export async function getOwned(): Promise<painting[]> {
+    const response: Response = await internalFetch('GET', 'users/getOwnedPaintings')
+
+    return response.json()
+}
+
+export async function getLiked(): Promise<painting[]> {
+    const response: Response = await internalFetch('GET', 'users/getLikedPaintings')
+
+    return response.json()
+}
+
 export async function addPainting(paintingData: paintingFormData): Promise<Response> {
     const createdAtTime = new Date().toLocaleString('en-GB', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'shortOffset' })
     return await internalFetch('POST', 'paintings', {...paintingData, createdAtTime})
