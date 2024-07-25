@@ -31,7 +31,9 @@ function goToPainting(paintingId: string) {
             <div class="col">
                 <h1>Gallery</h1>
                 <p>Expedita fuga vitae nisi, aperiam ipsam repellendus assumenda molestiae quos, soluta perferendis cum delectus qui, ab officia consequatur tempora. Debitis, sed vel.</p>
-                <button type="button" @click="goToGallery">Explore</button>
+                <div class="buttonContainer">
+                    <button type="button" @click="goToGallery">Explore</button>
+                </div>
             </div>
             <div class="col">
                 <div class="card" v-for="painting in paintings" :key="painting._id" :style="{backgroundImage: `url(${painting.imageUrl})`}" @click="goToPainting(painting._id)">
